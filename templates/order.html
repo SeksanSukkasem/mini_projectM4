@@ -1,0 +1,79 @@
+<!-- order.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='search.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='order.css') }}">
+</head>
+
+<body>
+    <header>
+        <div class="grid-container">
+            <div class="home-container">
+                <button onclick="location.href='/home'" type="button">Home</button>
+            </div>
+    </header>
+    <p id="pickupText">กำลังหยิบสินค้า...</p>
+
+    <script>
+        function placeOrder() {
+            const selectedProducts = getSelectedProducts(); // ดึงรายการสินค้าที่ถูกเลือก
+            const orderData = {
+                products: selectedProducts
+            };
+
+            // เรียกใช้งาน fetch API เพื่อส่งข้อมูลไปยังหน้า "order.html"
+            fetch('/order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(orderData),
+            })
+                .then(response => {
+                    // ตรวจสอบสถานะของการเรียก API
+                    if (response.ok) {
+                        // สั่งให้หน้า "order.html" โหลด
+                        window.location.href = '/order';
+                    } else {
+                        // แสดงข้อความแจ้งเตือนหากมีข้อผิดพลาด
+                        alert('Failed to place order');
+                    }
+                })
+                .catch(error => {
+                    // แสดงข้อความแจ้งเตือนหากมีข้อผิดพลาด
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+
+            const orderButton = document.querySelector('.order-container button');
+            const pickupText = document.getElementById('pickupText');
+
+            // เพิ่มคลาส pickup-animation เมื่อคลิกที่ปุ่ม "สั่งซื้อ"
+            pickupText.classList.add('pickup-animation');
+
+            // หลังจากเวลาที่กำหนดใน animation (ในที่นี้คือ 2 วินาที) เสร็จสิ้น
+            // ลบคลาส pickup-animation ออก
+            setTimeout(() => {
+                pickupText.classList.remove('pickup-animation');
+            }, 2000);
+        }
+
+        // ฟังก์ชันสำหรับดึงรายการสินค้าที่ถูกเลือก
+        function getSelectedProducts() {
+            const selectedProducts = [];
+            const selectedCount = document.getElementById('selectedCount').textContent;
+            for (let i = 0; i < selectedCount; i++) {
+                selectedProducts.push('Product ' + (i + 1));
+            }
+            return selectedProducts;
+        }
+    </script>
+
+</body>
+
+</html>

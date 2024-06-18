@@ -1,0 +1,129 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.grid-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.home-container, .order-container, .delete-container {
+    margin: 10px;
+}
+
+.order-container button, .delete-container button {
+    padding: 12px 24px;
+    background-color: #444444;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 10px;
+}
+
+.order-container button:hover, .delete-container button:hover {
+    background-color: #45a049;
+}
+
+.selected-count {
+    background-color: #ff0000;
+    color: white;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+.basket-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.basket-box {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+    padding: 20px;
+}
+
+.basket-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.basket-details {
+    padding: 15px;
+}
+
+.basket-details h4 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.basket-details p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.button-group {
+    display: flex;
+    align-items: center;
+}
+
+.add-to-cart {
+    background-color: transparent;
+    color: #444444;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
+    margin: 5px;
+    position: relative;
+}
+
+.add-to-cart i {
+    font-size: 20px;
+}
+
+.add-to-cart.trash {
+    background-color: transparent;
+    color: #ff0000;
+    transform: translateX(0);
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
+}
+
+.add-to-cart.trash:hover {
+    background-color: #d9534f;
+    color: white;
+}
+
+.add-to-cart.open.trash {
+    transform: translateX(10px);
+    /* Slide the trash icon to the right */
+}

@@ -1,0 +1,114 @@
+<!-- home.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='search.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Warehouse Search</title>
+    <script>
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    
+        function addToMarket(productName) {
+            const csrftoken = getCookie('csrftoken'); // Change CSRF token name to 'csrftoken'
+            fetch('/market', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                },
+                body: JSON.stringify({ product_name: productName }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Product added to market successfully!');
+                    } else {
+                        alert('Failed to add product to market: ' + data.error);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+        }
+    </script>
+    
+</head>
+
+<body>
+    <header>
+        <div class="grid-container">
+            <div class="home-container">
+                <button onclick="location.href='/home'" type="button">Home</button>
+            </div>
+            <div class="insert-container">
+                <button onclick="location.href='/insert'" type="button">Insert</button>
+            </div>
+            <div class="search-container">
+                <form action="{{ url_for('search_products') }}" method="get">
+                    <input type="text" placeholder="Search" name="search" value="{{ search_term }}">
+                    <button type="submit"><i class="fa fa-search" aria-label="Search"></i></button>
+                </form>
+            </div>
+            <div class="basket-container">
+                <button onclick="location.href='/basket'" type="button">Basket</button>
+            </div>
+        </div>
+        <div class="grid-container">
+            <div class="box-search">
+                <a href="#สินค้าดี" class="button-link">สินค้าดี</a>
+                <a href="#สินค้าเสีย" class="button-link">สินค้าเสีย</a>
+                <a href="#สินค้ายอดนิยม" class="button-link">สินค้ายอดนิยม</a>
+            </div>
+        </div>
+    </header>
+    <!-- Categories Section -->
+    <section class="categories">
+        <h2>Categories</h2>
+        <div class="category-buttons">
+            {% for category in categories %}
+            <form action="/category/{{ category[0] }}" method="get">
+                <button type="submit" class="category-button">{{ category[0] }}</button>
+            </form>
+            {% endfor %}
+        </div>
+    </section>
+
+
+    <!-- Product Section -->
+    <section class="product-grid">
+        {% for product in products %}
+        <div class="product-box">
+            <img src="{{ url_for('static', filename=product[1]) }}" alt="{{ product[1] }}" class="product-image">
+            <div class="product-details">
+                <h4>{{ product[0] }}</h4>
+                <p><strong>Quantity:</strong> {{ product[2] }}</p>
+            </div>
+            <button class="add-to-market" onclick="addToMarket('{{ product[0] }}')">
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+        {% endfor %}
+    </section>
+</body>
+
+</html>

@@ -1,0 +1,227 @@
+/* Reset and basic styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f2f4f6;
+}
+
+/* Header */
+header {
+    background: #ffffff;
+    padding: 20px;
+}
+
+/* Grid container */
+.grid-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    min-height: 20vh;
+    gap: 20px;
+}
+
+/* Search container */
+.search-container {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-container form {
+    position: relative;
+    width: 100%;
+}
+
+.search-container form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #5f5a5a;
+    border-radius: 7px;
+    border: 1px solid transparent;
+    outline: none;
+}
+
+.search-container form button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 50px;
+    background-color: #5f5a5a;
+    border: none;
+    font-size: 20px;
+    color: #ffffffb7;
+    cursor: pointer;
+    border-radius: 7px;
+}
+
+/* Home container */
+.home-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-container button {
+    padding: 10px 20px;
+    background-color: #5f5a5a;
+    color: #ffffff;
+    border: none;
+    border-radius: 7px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.home-container button:hover {
+    background-color: #2b2323;
+}
+
+
+/* Insert container */
+.insert-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.insert-container button {
+    padding: 10px 20px;
+    background-color: #5f5a5a;
+    color: #ffffff;
+    border: none;
+    border-radius: 7px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.insert-container button:hover {
+    background-color: #2b2323;
+}
+
+/* Navigation links */
+.box-search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box-search .button-link {
+    padding: 14px 16px 12px;
+    margin: 7px;
+    border-radius: 7px;
+    color: #ffffff;
+    background-color: #818080;
+    text-decoration: none;
+    border: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* Categories Section */
+.categories {
+    padding: 20px;
+}
+
+.category-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.category-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Product grid */
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+}
+
+.product-box {
+    flex: 0 1 calc(16.66% - 20px); /* Adjusted to fit 6 boxes in a row */
+    background-color: #ffffff;
+    border-radius: 3px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 10px;
+    transition: box-shadow 0.3s;
+    position: relative;
+}
+
+.product-image {
+    width: 200px; /* Set the width you desire */
+    height: 200px; /* Set the height you desire */
+    object-fit: cover; /* Maintain aspect ratio and cover the area */
+    border-radius: 3px;
+}
+
+/* Product details */
+.product-details {
+    margin-top: 10px;
+    text-align: left;
+}
+
+.product-details h4 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.product-details p {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+
+/* เพิ่ม CSS สำหรับปุ่มไอคอน */
+.product-box {
+    position: relative;
+}
+
+.add-to-market {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #ec0d0d;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-to-market:hover {
+    background-color: #bf0a0a;
+}
+
+.add-to-market i {
+    font-size: 16px;
+}

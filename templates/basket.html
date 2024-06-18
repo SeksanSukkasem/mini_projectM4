@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basket</title>
+    <link rel="stylesheet" href="../static/search.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='basket.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <div class="grid-container">
+            <div class="home-container">
+                <button onclick="location.href='/home'" type="button">Home</button>
+            </div>
+            <div class="order-container">
+                <button onclick="placeOrder()">Order</button>
+                <span id="selectedCount" class="selected-count">0</span> selected
+            </div>
+            <div class="delete-container">
+                <button onclick="deleteSelectedProducts()">Delete Selected</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="basket-grid">
+        {% for item in basket_data %}
+        <div class="basket-box" id="product-{{ item['product_name'] }}">
+            <img src="{{ url_for('static', filename=item['image']) }}" alt="{{ item['product_name'] }}" class="basket-image">
+            <div class="basket-details">
+                <h4>{{ item['product_name'] }}</h4>
+                <p><strong>Quantity:</strong> {{ item['quantity'] }}</p>
+            </div>
+            <div class="button-group">
+                <button class="add-to-cart" onclick="toggleSelection(this, '{{ item.product_name }}')">
+                    <i class="fas fa-circle"></i>
+                </button>
+                <button class="add-to-cart trash" onclick="deleteProduct(this, '{{ item.product_name }}')">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+
+    <script>
+        let selectedProducts = [];
+
+        function toggleSelection(button, productName) {
+            if (button.classList.contains('open')) {
+                button.classList.remove('open');
+                closeSelection(productName);
+            } else {
+                button.classList.add('open');
+                openSelection(productName);
+            }
+        }
+
+        function openSelection(productName) {
+            selectedProducts.push(productName);
+            updateSelectedCount();
+        }
+
+        function closeSelection(productName) {
+            const index = selectedProducts.indexOf(productName);
+            if (index > -1) {
+                selectedProducts.splice(index, 1);
+                updateSelectedCount();
+            }
+        }
+
+        function updateSelectedCount() {
+            const selectedCount = document.getElementById('selectedCount');
+            selectedCount.textContent = selectedProducts.length;
+        }
+
+        function deleteSelectedProducts() {
+            const orderData = { products: selectedProducts };
+
+            fetch('/remove_from_basket', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(orderData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    selectedProducts.forEach(productName => {
+                        const productElement = document.getElementById(`product-${productName}`);
+                        if (productElement) {
+                            productElement.remove();
+                        }
+                    });
+                    selectedProducts = [];
+                    updateSelectedCount();
+                } else {
+                    alert('Failed to remove products: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        }
+
+        function deleteProduct(button, productName) {
+            fetch('/remove_from_basket', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ products: [productName] }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const productElement = document.getElementById(`product-${productName}`);
+                    if (productElement) {
+                        productElement.remove();
+                    }
+                    closeSelection(productName); // Remove from selected if it was selected
+                } else {
+                    alert('Failed to remove product: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+
+            button.classList.add('open'); // Trigger the sliding animation
+        }
+
+        function placeOrder() {
+            const orderData = { products: selectedProducts };
+
+            fetch('/order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(orderData),
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/order';
+                } else {
+                    alert('Failed to place order');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        }
+    </script>
+</body>
+
+</html>

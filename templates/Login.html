@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WareHouse Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='Login.css') }}">
+  <script src="{{ url_for('static', filename='JS.js') }}"></script>
+  <script src="script.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Welcome</h1>
+    <p class="Login">Login account WareHouse</p>
+  </header>
+
+  <main>
+    <section id="login">
+      <form action="/home" method="post"> <!-- Form with specified action and method -->
+        <p>
+          <input type="text" id="username" name="username" placeholder="Username">
+        </p>
+        <p>
+          <input type="password" id="password" name="password" placeholder="Password">
+        </p>
+        <button type="submit">Login</button> <!-- Button to submit the form -->
+      </form>
+      <p class="account">Don't have an account?</p>
+      <a href="/signup">Sign up </a> <!-- Corrected link to a signup page -->
+    </section>
+  </main>
+</body>
+</html>
