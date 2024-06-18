@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LED Control</title>
+    <script>
+        function controlLED(state) {
+            fetch(`/led?state=${state}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    const status = document.getElementById('status');
+                    status.innerText = `LED is ${data.state}`;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</head>
+<body>
+    <h1>LED Control</h1>
+    <button onclick="controlLED('on')">Turn On</button>
+    <button onclick="controlLED('off')">Turn Off</button>
+    <p id="status">LED is off</p>
+</body>
+</html>

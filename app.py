@@ -348,6 +348,21 @@ def remove_from_basket():
         return jsonify({'success': False, 'error': 'Error connecting to the database'}), 500
 
 
+@app.route('/led_control', methods=['GET'])
+def led_control_page():
+    return render_template('led_control.html')
+
+
+@app.route('/led', methods=['GET'])
+def led_control():
+    state = request.args.get('state', default='off', type=str)
+    if state == 'on':
+        led_state = 'on'
+        # Add code to turn on the LED
+    else:
+        led_state = 'off'
+        # Add code to turn off the LED
+    return jsonify({'state': led_state})
 
 if __name__ == '__main__':
     app.run(debug=True)
